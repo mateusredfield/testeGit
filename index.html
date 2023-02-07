@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+
+
+html, body{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.fodasse{
+    text-align:center; 
+    width: calc(100vw - (100vw - 100%)); 
+    height:100vh;
+    background-color: blue;
+}
+
+.areaCanvas{
+    margin-top: 30px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    /* width: calc((100vw - (100vw - 100%))*0.9); */
+    height: 350px;
+    width: 350px;
+    background-color: lavender;
+    border: 1px solid black;    
+}
+
+</style>
+
+<script>
+
+var canvas;
+var canvasContext;
+var canvasWidth;
+var canvasHeight;
+var x = 0;
+
+var idleState1 = {
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50
+}
+
+var idleState2 = {
+        x: 250,
+        y: 50,
+        width: 50,
+        height: 50
+}
+
+
+const keysSender = {
+        "ArrowUp" : moveUp
+}
+
+document.addEventListener('keydown', observadorTeclas, false)
+
+function observadorTeclas(e){
+    keysManipulator(e.key);
+}
+
+function keysManipulator(key){
+    keysSender[key](idleState1);
+}
+
+function startAnimation(){
+    canvas = document.getElementById('canvas');
+    canvasContext = canvas.getContext('2d');
+    canvasWidth = canvas.width = 350;
+    canvasHeight = canvas.height = 350;
+    animate();
+}
+
+function animate(){
+    
+    canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+    drawSquare(idleState1);
+    drawSquare(idleState2);
+    requestAnimationFrame(animate);
+}
+
+function drawSquare(obj){
+
+    var x = obj.x;
+    var y = obj.y;
+    var width = obj.width;
+    var height = obj.height;
+
+    canvasContext.fillRect(x, y, width, height);
+}
+
+function moveUp(obj){
+    obj.y = obj.y - 1;
+}
+
+function moveDown(obj){
+    obj.y = obj.y + 1;
+}
+
+function moveLeft(obj){
+    obj.x = obj.x - 1;
+}
+
+function moveRight(obj){
+    obj.x = obj.x + 1;
+}
+
+</script>
+
+<body>
+    <div onclick="startAnimation()" class="areaCanvas">
+        <canvas id="canvas">
+        </canvas>
+    </div>
+    <button onclick="moveUp(idleState1)">Up</button> | 
+    <button onclick="moveDown(idleState1)">Down</button> |
+    <button onclick="moveLeft(idleState1)">Left</button> |
+    <button onclick="moveRight(idleState1)">Right</button>
+    <br>
+    <div id="dumpVar"></div>
+    
+</body>
+</html>
